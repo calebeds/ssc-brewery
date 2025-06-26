@@ -9,20 +9,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new LdapShaPasswordEncoder();
+        return new StandardPasswordEncoder();
     }
 
     @Override
@@ -46,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("ADMIN")
                 .and()
                 .withUser("user")
-                .password("{SSHA}bCGZK72nSdVxO/V5xT87CF+/QFPu0zA+lKFcyg==")
+                .password("444db5cb6fd454a24f202657b5b2a3a27de9f0a7358bc86eaa06fdccc90ea328f3053464ac54b98a")
                 .roles("USER")
                 .and()
                 .withUser("scott")
-                .password("{SSHA}0mbBjOQPFgTrD2UkrhDSXwy8lHZRFoAsDhpDRA==")
+                .password("3b684ab96daa5ecf92ced7ecfbe8f8b1d7ae3d3b666e986c7a25085a9a3ab60bfe8276a01c9509e7")
                 .roles("CUSTOMER")
                 .roles("USER");
     }
