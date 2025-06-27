@@ -24,6 +24,7 @@ public class CalebePasswordEncoderFactories {
         Map<String, PasswordEncoder> encoders = new HashMap();
         encoders.put(encodingId, new BCryptPasswordEncoder());
         encoders.put("ldap", new LdapShaPasswordEncoder());
+        encoders.put("bcrypt15", new BCryptPasswordEncoder(15));
         encoders.put("noop", NoOpPasswordEncoder.getInstance());
         encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
         encoders.put("scrypt", new SCryptPasswordEncoder());
