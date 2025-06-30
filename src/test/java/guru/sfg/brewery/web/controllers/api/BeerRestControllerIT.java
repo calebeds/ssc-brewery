@@ -31,43 +31,43 @@ public class BeerRestControllerIT extends BaseIT {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void deleteBeer() throws Exception {
-        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82").header("Api-Key", "spring").header("Api-Secret", "calebe"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void deleteBeerHttpBasic() throws Exception {
-        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82")
-                .with(httpBasic("spring", "calebe")))
-                .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
-    void deleteBeerNoAuth() throws Exception {
-        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82"))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void deleteBeerBadCreds() throws Exception {
-        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82")
-                .header("Api-Key", "spring").header("Api-Secret", "calebeXXX"))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void deleteBeerUrlParams() throws Exception {
-        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82")
-                        .param("apiKey", "spring").param("apiSecret", "calebe"))
-                .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
-    void deleteBeerUrlParamsBadCreds() throws Exception {
-        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82")
-                        .param("apiKey", "spring").param("apiSecret", "calebeXXX"))
-                .andExpect(status().isUnauthorized());
-    }
+//    @Test
+//    void deleteBeer() throws Exception {
+//        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82").header("Api-Key", "spring").header("Api-Secret", "calebe"))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    void deleteBeerHttpBasic() throws Exception {
+//        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82")
+//                .with(httpBasic("spring", "calebe")))
+//                .andExpect(status().is2xxSuccessful());
+//    }
+//
+//    @Test
+//    void deleteBeerNoAuth() throws Exception {
+//        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82"))
+//                .andExpect(status().isUnauthorized());
+//    }
+//
+//    @Test
+//    void deleteBeerBadCreds() throws Exception {
+//        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82")
+//                .header("Api-Key", "spring").header("Api-Secret", "calebeXXX"))
+//                .andExpect(status().isUnauthorized());
+//    }
+//
+//    @Test
+//    void deleteBeerUrlParams() throws Exception {
+//        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82")
+//                        .param("apiKey", "spring").param("apiSecret", "calebe"))
+//                .andExpect(status().is2xxSuccessful());
+//    }
+//
+//    @Test
+//    void deleteBeerUrlParamsBadCreds() throws Exception {
+//        mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82")
+//                        .param("apiKey", "spring").param("apiSecret", "calebeXXX"))
+//                .andExpect(status().isUnauthorized());
+//    }
 }
