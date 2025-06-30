@@ -1,8 +1,10 @@
 package guru.sfg.brewery.config;
 
 import guru.sfg.brewery.security.CalebePasswordEncoderFactories;
+import guru.sfg.brewery.security.JpaUserDetailsService;
 import guru.sfg.brewery.security.RestHeaderAuthFilter;
 import guru.sfg.brewery.security.RestUrlAuthFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -65,22 +67,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("spring")
-                .password("{bcrypt}$2a$10$a5q6.c17.EezLTkodgS8r.QCXfan0IbMRIHo4S25mGG.kChym1oSe")
-                .roles("ADMIN")
-                .and()
-                .withUser("user")
-                .password("{sha256}e56a7b0c671510f8ee8d304c6baea23b98696a9690dc7082e54add1159cdd0545738a82afb39c329")
-                .roles("USER")
-                .and()
-                .withUser("scott")
-                .password("{bcrypt15}$2a$15$b4GARq.G5Uqp5Lp/6vh9QenEj804uyaTT50J78o8SggA/GuJH6bNW")
-                .roles("CUSTOMER")
-                .roles("USER");
-    }
+
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("spring")
+//                .password("{bcrypt}$2a$10$a5q6.c17.EezLTkodgS8r.QCXfan0IbMRIHo4S25mGG.kChym1oSe")
+//                .roles("ADMIN")
+//                .and()
+//                .withUser("user")
+//                .password("{sha256}e56a7b0c671510f8ee8d304c6baea23b98696a9690dc7082e54add1159cdd0545738a82afb39c329")
+//                .roles("USER")
+//                .and()
+//                .withUser("scott")
+//                .password("{bcrypt15}$2a$15$b4GARq.G5Uqp5Lp/6vh9QenEj804uyaTT50J78o8SggA/GuJH6bNW")
+//                .roles("CUSTOMER")
+//                .roles("USER");
+
+//    }
 
     //    @Override
 //    @Bean
