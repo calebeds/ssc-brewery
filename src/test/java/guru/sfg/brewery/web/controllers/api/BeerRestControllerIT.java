@@ -58,4 +58,49 @@ public class BeerRestControllerIT extends BaseIT {
         mockMvc.perform(delete("/api/v1/beer/f3116f77-db69-44ad-af1b-9556bb18be82"))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    void listBreweriesCUSTOMER() throws Exception {
+        mockMvc.perform(get("/brewery/breweries")
+                .with(httpBasic("scott", "tiger")))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    void listBreweriesADMIN() throws Exception {
+        mockMvc.perform(get("/brewery/breweries")
+                        .with(httpBasic("spring", "calebe")))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void listBreweriesNOAUTH() throws Exception {
+        mockMvc.perform(get("/brewery/breweries"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void getBreweriesJsonCUSTOMER() throws Exception {
+        mockMvc.perform(get("/brewery/api/v1/breweries").with(httpBasic("scott", "tiger")))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+
+    @Test
+    void getBreweriesJsonADMIN() throws Exception {
+        mockMvc.perform(get("/brewery/api/v1/breweries").with(httpBasic("spring", "calebe")))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void getBreweriesJsonUSER() throws Exception {
+        mockMvc.perform(get("/brewery/api/v1/breweries").with(httpBasic("user", "password")))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void getBreweriesJsonNOAUTH() throws Exception {
+        mockMvc.perform(get("/brewery/api/v1/breweries"))
+                .andExpect(status().isUnauthorized());
+    }
 }
