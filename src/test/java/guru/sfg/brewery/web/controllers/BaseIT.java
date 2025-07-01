@@ -21,22 +21,6 @@ public abstract class BaseIT {
 
     protected MockMvc mockMvc;
 
-    @MockBean
-    BeerRepository beerRepository;
-
-    @MockBean
-    BeerInventoryRepository beerInventoryRepository;
-
-    @MockBean
-    BreweryService breweryService;
-
-    @MockBean
-    CustomerRepository customerRepository;
-
-    @MockBean
-    BeerService beerService;
-
-
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders
