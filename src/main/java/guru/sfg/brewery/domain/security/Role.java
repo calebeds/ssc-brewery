@@ -20,8 +20,8 @@ import java.util.Set;
 
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 public class Role {
@@ -36,8 +36,9 @@ public class Role {
 
     @Singular
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authority",
-            joinColumns =  {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")},
+    @JoinTable(name = "role_authority",
+            joinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
     private Set<Authority> authorities;
+
 }
