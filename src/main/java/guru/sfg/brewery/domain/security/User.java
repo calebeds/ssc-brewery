@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
+import org.springframework.security.core.CredentialsContainer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,7 +30,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Builder
 @Entity
-public class User {
+public class User implements UserDetails, CredentialsContainer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,12 +47,11 @@ public class User {
     private Set<Role> roles;
 
     @Transient
-    private Set<Authority> authorities;
-
-    public Set<Authority> getAuthorities() {
+    public Set<GrantedAuthority> getAuthorities() {
         return this.roles.stream()
                 .map(Role::getAuthorities)
                 .flatMap(Set::stream)
+                .map(authority -> new SimpleGrantedAuthority(authority.getPermission()))
                 .collect(Collectors.toSet());
     }
 
@@ -64,4 +67,8 @@ public class User {
     @Builder.Default
     private boolean enabled = true;
 
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
+    }
 }
