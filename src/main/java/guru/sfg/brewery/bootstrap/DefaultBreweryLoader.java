@@ -53,6 +53,9 @@ public class DefaultBreweryLoader implements CommandLineRunner {
     public static final String BEER_1_UPC = "0631234200036";
     public static final String BEER_2_UPC = "0631234300019";
     public static final String BEER_3_UPC = "0083783375213";
+    public static final String ST_PETE_USER = "stpete";
+    public static final String KEY_WEST_USER = "keywest";
+    public static final String DUNEDIN_USER = "dunedin";
 
     private final BreweryRepository breweryRepository;
     private final BeerRepository beerRepository;
