@@ -83,4 +83,44 @@ class BeerOrderControllerV2Test extends BaseIT {
         mockMvc.perform(get(API_ROOT))
                 .andExpect(status().isOk());
     }
+
+    @Transactional
+    @Test
+    void getByOrderIdNotAuth() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(String.format("%s%s", API_ROOT, beerOrder.getId())))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Transactional
+    @WithUserDetails("spring")
+    @Test
+    void getByOrderIdAdmin() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(String.format("%s%s", API_ROOT, beerOrder.getId())))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Transactional
+    @WithUserDetails(DefaultBreweryLoader.ST_PETE_USER)
+    @Test
+    void getByOrderIdCustomerAuth() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(String.format("%s%s", API_ROOT, beerOrder.getId())))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Transactional
+    @WithUserDetails(DefaultBreweryLoader.DUNEDIN_USER)
+    @Test
+    void getByOrderIdCustomerNotAuth() throws Exception {
+        BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
+
+        mockMvc.perform(get(String.format("%s%s", API_ROOT, beerOrder.getId())))
+                .andExpect(status().isNotFound());
+    }
+
 }

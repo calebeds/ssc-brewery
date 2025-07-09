@@ -5,6 +5,7 @@ import guru.sfg.brewery.security.perms.BeerOrderReadPermissionV2;
 import guru.sfg.brewery.services.BeerOrderService;
 import guru.sfg.brewery.web.model.BeerOrderDto;
 import guru.sfg.brewery.web.model.BeerOrderPagedList;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
 @RequestMapping("/api/v2/orders/")
 @RestController
+@Slf4j
 public class BeerOrderControllerV2 {
     private static final Integer DEFAULT_PAGE_NUMBER = 0;
     private static final Integer DEFAULT_PAGE_SIZE = 25;
@@ -61,9 +64,17 @@ public class BeerOrderControllerV2 {
     }
 
     @BeerOrderReadPermissionV2
-    @GetMapping("orders/{orderId}")
-    public BeerOrderDto getOrder(@PathVariable("customerId") UUID customerId, @PathVariable("orderId") UUID orderId) {
-        return beerOrderService.getOrderById(customerId, orderId);
+    @GetMapping("{orderId}")
+    public BeerOrderDto getOrder(@PathVariable("orderId") UUID orderId) {
+         final BeerOrderDto beerOrderDto = beerOrderService.getOrderById(orderId);
+
+         if(beerOrderDto == null) {
+             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order Not Found");
+         }
+
+         log.debug("Found Order: {}", beerOrderDto);
+
+         return beerOrderDto;
     }
 
     @BeerOrderPickupPermissionV2
