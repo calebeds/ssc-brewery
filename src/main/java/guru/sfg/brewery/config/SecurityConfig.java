@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();
                 })
                 .authorizeRequests().anyRequest()).authenticated().and()).formLogin().and()).httpBasic()
-                .and().csrf().disable();
+                .and().csrf().ignoringAntMatchers("/h2-console/**", "/api/**");
 
         // h2 console config
         http.headers().frameOptions().sameOrigin();
