@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -22,6 +23,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final PersistentTokenRepository persistentTokenRepository;
 
 
     // needed for use with Spring Data JPA SPeL
@@ -59,8 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 }))
                 .httpBasic()
                 .and().csrf().ignoringAntMatchers("/h2-console/**", "/api/**")
-                .and().rememberMe().key("calebe-key")
+                .and()
+                .rememberMe().tokenRepository(persistentTokenRepository)
                 .userDetailsService(userDetailsService);
+
+//                .rememberMe().key("calebe-key")
+//                .userDetailsService(userDetailsService);
 
         // h2 console config
         http.headers().frameOptions().sameOrigin();
