@@ -36,13 +36,25 @@ public class UserController {
         return "user/register2fa";
     }
 
-    private static User getUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
     @PostMapping("/register2fa")
     public String confirm2Fa(@RequestParam Integer verifyCode) {
-        // TODO: impl
-        return "index";
+        User user = getUser();
+
+        log.debug("Entered Code is {}", verifyCode);
+
+        if(googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+            User savedUser = userRepository.findById(user.getId()).orElseThrow();
+            savedUser.setUserGoogle2fa(true);
+            userRepository.save(savedUser);
+
+            return "/index";
+        } else {
+            // bad code
+            return "user/register2fa";
+        }
+    }
+
+    private static User getUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
