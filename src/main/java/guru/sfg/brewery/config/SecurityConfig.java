@@ -18,9 +18,9 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Configuration
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -35,10 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new SecurityEvaluationContextExtension();
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return CalebePasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
