@@ -44,6 +44,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
 @RestController
+@CrossOrigin
 public class BeerRestController {
 
     private static final Integer DEFAULT_PAGE_NUMBER = 0;

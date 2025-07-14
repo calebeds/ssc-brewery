@@ -1,4 +1,4 @@
-package guru.sfg.brewery.web.controllers.api;
+package guru.sfg.brewery.security.perms;
 
 public @interface BeerOrderPickupPermissionV2 {
 }
