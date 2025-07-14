@@ -23,10 +23,11 @@ public class UserController {
     private final GoogleAuthenticator googleAuthenticator;
 
     @GetMapping("/register2fa")
-    public String register2fa(Model model) {
+    public String register2fa(Model model){
+
         User user = getUser();
 
-        String url = GoogleAuthenticatorQRGenerator.getOtpAuthURL("CALEBE", user.getUsername(),
+        String url = GoogleAuthenticatorQRGenerator.getOtpAuthURL("SFG", user.getUsername(),
                 googleAuthenticator.createCredentials(user.getUsername()));
 
         log.debug("Google QR URL: {}", url);
@@ -37,12 +38,13 @@ public class UserController {
     }
 
     @PostMapping("/register2fa")
-    public String confirm2Fa(@RequestParam Integer verifyCode) {
+    public String confirm2Fa(@RequestParam Integer verifyCode){
+
         User user = getUser();
 
         log.debug("Entered Code is {}", verifyCode);
 
-        if(googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+        if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
             User savedUser = userRepository.findById(user.getId()).orElseThrow();
             savedUser.setUseGoogle2fa(true);
             userRepository.save(savedUser);
@@ -55,16 +57,17 @@ public class UserController {
     }
 
     @GetMapping("/verify2fa")
-    public String verify2fa() {
+    public String verify2fa(){
         return "user/verify2fa";
     }
 
     @PostMapping("/verify2fa")
-    public String verifyPost2Fa(@RequestParam Integer verifyCode) {
+    public String verifyPostOf2Fa(@RequestParam Integer verifyCode){
+
         User user = getUser();
 
-        if(googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
-            ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
+        if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+            ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
 
             return "/index";
         } else {
@@ -72,7 +75,7 @@ public class UserController {
         }
     }
 
-    private static User getUser() {
+    private User getUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
